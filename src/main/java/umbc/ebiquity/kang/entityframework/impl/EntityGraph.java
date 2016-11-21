@@ -47,7 +47,6 @@ public class EntityGraph implements IEntityGraphRelationExtractor, IEntityGraphI
 	 */
 	private Set<EntityNode> relationsFromTables;
 	private Set<EntityNode> relationsFromM2NStructure;
-//	private Set<EntityNode> relationsFromM2OneStructure;
 	private Map<EntityNode, EntityNode> relationRefTable;
 
 	/**
