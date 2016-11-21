@@ -33,10 +33,6 @@ public class EntityGraph implements IEntityGraphRelationExtractor, IEntityGraphI
 	/**
 	 * 
 	 */
-	private IEntityPathExtractor entityPathConstructor;
-	/**
-	 * 
-	 */
 	private Set<EntityPath> entityPathSet;
 	private Collection<EntityPath> entityPaths;
 	/**

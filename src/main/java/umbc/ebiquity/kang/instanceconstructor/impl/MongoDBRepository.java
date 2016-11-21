@@ -66,6 +66,7 @@ public class MongoDBRepository implements IInstanceDescriptionModelRepository {
 			collection = database.getCollection(modelName);
 		}
 		// TODO: retrieve all documents and create the IDM
+		collection.find();
 		return null;
 	}
 

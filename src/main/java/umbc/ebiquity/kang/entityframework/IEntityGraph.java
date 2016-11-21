@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import umbc.ebiquity.kang.entityframework.impl.InstanceConceptSetExtractionAlgorithm;
 import umbc.ebiquity.kang.entityframework.object.Concept;
 import umbc.ebiquity.kang.entityframework.object.Entity;
 import umbc.ebiquity.kang.entityframework.object.EntityNode;

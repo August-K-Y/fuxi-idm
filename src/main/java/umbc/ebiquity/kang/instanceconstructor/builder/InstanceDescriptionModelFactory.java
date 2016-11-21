@@ -29,7 +29,7 @@ public class InstanceDescriptionModelFactory {
 		IPathFocusedWebSiteParser parser = PathFocusedWebSiteParserFactory.createParser(website);
 		IWebSiteParsedPathsHolder webSitePathHolder = parser.parse();
 		
-		// extract Entity Paths and create Entity Graph
+		// extract Entity Paths and create Entity Graph 
 		IEntityPathExtractor extractor = EntityPathExtractorImpl.create(webSitePathHolder);
 		IEntityGraph entityGraph = EntityGraph.create(webSiteURL, extractor.extract());
 		entityGraph.labelEntityGraph();
@@ -44,7 +44,6 @@ public class InstanceDescriptionModelFactory {
 		String webSiteURLString = "http://www.accutrex.com";
 		URL webSiteURL = new URL(webSiteURLString);
 		IInstanceDescriptionModel extractedTripleStore = InstanceDescriptionModelFactory.construct(webSiteURL);
-//		FileModelRepository repo = new FileModelRepository();
 		FileSystemRepository repo = new FileSystemRepository();
 		repo.save(extractedTripleStore, "testRepo13");
 	}
