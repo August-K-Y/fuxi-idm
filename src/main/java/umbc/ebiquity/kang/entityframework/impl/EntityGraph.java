@@ -14,7 +14,6 @@ import java.util.Set;
 import umbc.ebiquity.kang.entityframework.IEntityGraph;
 import umbc.ebiquity.kang.entityframework.IEntityGraphInstanceConceptsExtractor;
 import umbc.ebiquity.kang.entityframework.IEntityGraphRelationExtractor;
-import umbc.ebiquity.kang.entityframework.IEntityPathExtractor;
 import umbc.ebiquity.kang.entityframework.IInstanceConceptSetExtractionAlgorithm;
 import umbc.ebiquity.kang.entityframework.IRelationExtractionAlgorithm;
 import umbc.ebiquity.kang.entityframework.object.Concept;
