@@ -1,4 +1,4 @@
-package umbc.ebiquity.kang.instanceconstructor.impl;
+package umbc.ebiquity.kang.instanceconstructor.impl.support;
 
 import java.util.ArrayList;
 import java.util.List;

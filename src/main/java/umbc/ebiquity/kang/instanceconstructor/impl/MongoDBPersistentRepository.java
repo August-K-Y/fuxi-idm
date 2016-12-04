@@ -11,17 +11,18 @@ import com.mongodb.client.MongoDatabase;
 
 import umbc.ebiquity.kang.instanceconstructor.IInstanceDescriptionModel;
 import umbc.ebiquity.kang.instanceconstructor.IInstanceDescriptionModelRepository;
+import umbc.ebiquity.kang.instanceconstructor.IModelSaver;
+import umbc.ebiquity.kang.instanceconstructor.impl.support.ModelSaveSupport;
+import umbc.ebiquity.kang.instanceconstructor.impl.support.RecordsHolder;
 
-public class MongoDBRepository implements IInstanceDescriptionModelRepository {
+public class MongoDBPersistentRepository implements IModelSaver {
 
 	private final MongoDatabase database;
 	private ModelSaveSupport saveSupport;
-	private ModelLoadSupport loadSupport;
 
-	public MongoDBRepository(MongoDatabase database) {
-		saveSupport = new ModelSaveSupport();
-		loadSupport = new ModelLoadSupport();
+	public MongoDBPersistentRepository(MongoDatabase database) {
 		this.database = database;
+		saveSupport = new ModelSaveSupport();
 	}
 
 	@Override
@@ -33,7 +34,6 @@ public class MongoDBRepository implements IInstanceDescriptionModelRepository {
 			collection = database.getCollection(modelName);
 		}
 		save(model, collection);
-
 	}
 
 	private void save(IInstanceDescriptionModel model, MongoCollection<Document> collection) {
@@ -56,18 +56,6 @@ public class MongoDBRepository implements IInstanceDescriptionModelRepository {
 			documents.add(doc);
 		}
 		return documents;
-	}
-
-	@Override
-	public IInstanceDescriptionModel load(String modelName) {
-		MongoCollection<Document> collection = database.getCollection(modelName);
-		if (collection == null || collection.count() == 0) {
-			database.createCollection(modelName);
-			collection = database.getCollection(modelName);
-		}
-		// TODO: retrieve all documents and create the IDM
-		collection.find();
-		return null;
 	}
 
 }

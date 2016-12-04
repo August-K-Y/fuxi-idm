@@ -41,7 +41,7 @@ public final class InstanceDescriptionModel implements IInstanceDescriptionModel
 	/**
 	 * This Map maps subjects to their group
 	 */
-	private Map<String, InstanceTripleSet> subject2TripleSetMap;
+	private Map<String, DescribedInstance> subject2TripleSetMap;
 	
 	/**
 	 * This Set stores all triples with custom predicates
@@ -112,7 +112,7 @@ public final class InstanceDescriptionModel implements IInstanceDescriptionModel
 
 	private void init() {
 		this.theWholeTripleSet = new LinkedHashSet<Triple>();
-		this.subject2TripleSetMap = new LinkedHashMap<String, InstanceTripleSet>();
+		this.subject2TripleSetMap = new LinkedHashMap<String, DescribedInstance>();
 		this.relationTypeTriple = new HashSet<Triple>();
 
 		this.triplesWithCustomRelation = new LinkedHashSet<Triple>();
@@ -141,11 +141,11 @@ public final class InstanceDescriptionModel implements IInstanceDescriptionModel
 			/*
 			 * Group triples based on subjects of triples
 			 */
-			InstanceTripleSet instanceTripleSet;
+			DescribedInstance instanceTripleSet;
 			if(subject2TripleSetMap.containsKey(subject)){
 				instanceTripleSet = subject2TripleSetMap.get(subject);
 			} else {
-				 instanceTripleSet = new InstanceTripleSet(subject);
+				 instanceTripleSet = new DescribedInstance(subject);
 				 subject2TripleSetMap.put(subject, instanceTripleSet);
 			}
 
@@ -158,7 +158,7 @@ public final class InstanceDescriptionModel implements IInstanceDescriptionModel
 			if (PredicateType.Custom == predicateType) {
 				
 				triplesWithCustomRelation.add(triple);
-				instanceTripleSet.addNonTaxonomicTriple(triple);
+				instanceTripleSet.addRelationalTriple(triple);
 				String customRelation = triple.getPredicate();
 				/*
 				 * Create HashMap that maps custom predicates to their subjects.
@@ -197,7 +197,7 @@ public final class InstanceDescriptionModel implements IInstanceDescriptionModel
 					numberOfTriples++;
 				} else if (BuiltinPredicate.hasConcept.toString().equals(triple.getPredicate())) {
 					triplesOfInstance2ConceptsRelation.add(triple);
-					instanceTripleSet.addInstance2ConceptTriple(triple);
+					instanceTripleSet.addConcept(triple.getConcept());
 					numberOfTriples++;
 				} else if (BuiltinPredicate.isTypeOf.toString().equals(triple.getPredicate())){
 					relationTypeTriple.add(triple);
@@ -236,11 +236,11 @@ public final class InstanceDescriptionModel implements IInstanceDescriptionModel
 		}
 	}
 
-	public Collection<InstanceTripleSet> getInstanceTripleSets(){
+	public Collection<DescribedInstance> getDescribedInstances(){
 		return subject2TripleSetMap.values();
 	}
 	
-	public InstanceTripleSet getInstanceTripleSetByInstanceName(String instanceName){ 
+	public DescribedInstance getDescribedInstanceByName(String instanceName){ 
 		return this.subject2TripleSetMap.get(instanceName);
 	}
 
@@ -405,7 +405,7 @@ public final class InstanceDescriptionModel implements IInstanceDescriptionModel
 
 	@Override
 	public void showTriples() {
-		for (InstanceTripleSet tripleGroup: subject2TripleSetMap.values()) {
+		for (DescribedInstance tripleGroup: subject2TripleSetMap.values()) {
 			tripleGroup.printTriples();
 		}
 	}

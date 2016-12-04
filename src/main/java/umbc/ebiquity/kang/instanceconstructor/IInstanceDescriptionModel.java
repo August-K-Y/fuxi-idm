@@ -5,14 +5,14 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import umbc.ebiquity.kang.instanceconstructor.impl.InstanceTripleSet;
+import umbc.ebiquity.kang.instanceconstructor.impl.DescribedInstance;
 import umbc.ebiquity.kang.instanceconstructor.impl.Triple;
 
 public interface IInstanceDescriptionModel {
 	
-	public Collection<InstanceTripleSet> getInstanceTripleSets();
+	public Collection<DescribedInstance> getDescribedInstances();
 	
-	public InstanceTripleSet getInstanceTripleSetByInstanceName(String instanceName);
+	public DescribedInstance getDescribedInstanceByName(String instanceName);
 
 	public Collection<Triple> getCustomRelationTriples();
 	

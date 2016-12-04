@@ -1,4 +1,4 @@
-package umbc.ebiquity.kang.instanceconstructor.impl;
+package umbc.ebiquity.kang.instanceconstructor.impl.support;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,6 +11,9 @@ import org.json.simple.JSONValue;
 
 import umbc.ebiquity.kang.entityframework.object.Concept;
 import umbc.ebiquity.kang.instanceconstructor.IInstanceDescriptionModel;
+import umbc.ebiquity.kang.instanceconstructor.impl.InstanceDescriptionModel;
+import umbc.ebiquity.kang.instanceconstructor.impl.RepositorySchemaConfiguration;
+import umbc.ebiquity.kang.instanceconstructor.impl.Triple;
 import umbc.ebiquity.kang.instanceconstructor.impl.Triple.BuiltinType;
 import umbc.ebiquity.kang.instanceconstructor.impl.Triple.PredicateType;
 

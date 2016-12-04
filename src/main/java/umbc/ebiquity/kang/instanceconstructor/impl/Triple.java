@@ -49,18 +49,23 @@ public class Triple {
 	}
 
 	public Triple(String subject, String processedSubjectLable, String predicate, String object, String processedObjectLabel) {
-		// this.predicateType = PredicateType.Custom;
+		if (BuiltinPredicateSet.contains(predicate)) {
+			this.predicateType = PredicateType.Builtin;
+		} else {
+			this.predicateType = PredicateType.Custom;
+		}
 		this.init(subject, processedSubjectLable, predicate, object, processedObjectLabel);
 	}
 
 	public Triple(String subject, String processedSubjectLable, BuiltinPredicate predicate, String object, String processedObjectLabel) {
-		// this.predicateType = PredicateType.Builtin;
 		this.builtinPredicate = predicate;
+		this.predicateType = PredicateType.Builtin;
 		this.init(subject, processedSubjectLable, predicate.toString(), object, processedObjectLabel);
 	}
 
 	public Triple(EntityNode instanceNode, Concept concept) {
 		this.builtinPredicate = BuiltinPredicate.hasConcept;
+		this.predicateType = PredicateType.Builtin;
 		this.concept = concept;
 		this.init(instanceNode.getLabel(), instanceNode.getProcessedTermLabel(), builtinPredicate.toString(), concept.getConceptName(),
 				concept.getConceptName());
@@ -68,12 +73,14 @@ public class Triple {
 
 	public Triple(String instanceLabel, Concept concept) {
 		this.builtinPredicate = BuiltinPredicate.hasConcept;
+		this.predicateType = PredicateType.Builtin;
 		this.concept = concept;
 		this.init(instanceLabel, instanceLabel, builtinPredicate.toString(), concept.getConceptName(), concept.getConceptName());
 	}
 
 	public Triple(EntityNode relationNode, BuiltinType type) {
 		this.builtinPredicate = BuiltinPredicate.isTypeOf;
+		this.predicateType = PredicateType.Builtin;
 		this.builtinType = type;
 		this.init(relationNode.getLabel(), relationNode.getProcessedTermLabel(), builtinPredicate.toString(), builtinType.toString(),
 				builtinType.toString());
@@ -81,6 +88,7 @@ public class Triple {
 
 	public Triple(String relationLabel, BuiltinType type) {
 		this.builtinPredicate = BuiltinPredicate.isTypeOf;
+		this.predicateType = PredicateType.Builtin;
 		this.builtinType = type;
 		this.init(relationLabel, relationLabel, builtinPredicate.toString(), builtinType.toString(), builtinType.toString());
 	}

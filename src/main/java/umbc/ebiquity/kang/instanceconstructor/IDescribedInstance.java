@@ -6,26 +6,22 @@ import java.util.Set;
 
 import umbc.ebiquity.kang.entityframework.object.Concept;
 
-public interface IInstanceTripleSet {
+public interface IDescribedInstance extends IInstance {
 
-	public Collection<Concept> getConceptSet();
+	public Set<Concept> getConcepts();
 
-	public Collection<String> getCustomRelation();
+	public Set<IRelation> getRelations();
 
-	public Collection<String> getCustomRelationValue(String relation);
+	public IValuedRelation getRelationValueByName(String name);
 
 	public Collection<String> getTaxonomicRelationValue();
 
-	public Map<String, Set<String>> getRelation2ValueMap();
+	public Set<IValuedRelation> getValuedRelations();
 
 	public Map<String, Set<String>> getTaxonomicRelation2ValueMap();
 
-	public Map<String, Set<Concept>> getInstance2ConceptualSetMap();
-
-	public String getSubjectLabel();
-
 	public String getProcessedSubjectLabel();
-
+	
 	public boolean containsConcept();
 
 }

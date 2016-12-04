@@ -38,7 +38,7 @@ public class Concept {
 		this.computingLabel = label;
 	}
 
-	public void updateComputingLabel(String computeLabel) {
+	public void updateProcessedLabel(String computeLabel) {
 		this.computingLabel = computeLabel;
 	}
 
