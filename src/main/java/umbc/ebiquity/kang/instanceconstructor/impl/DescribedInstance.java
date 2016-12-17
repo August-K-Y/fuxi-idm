@@ -41,13 +41,17 @@ public class DescribedInstance extends Instance implements IDescribedInstance {
 	public void addRelationalTriple(Triple triple) {
 		Relation relation = new Relation(triple.getPredicate());
 		ValuedRelation valuedRelation;
-		if(relation2ValueMap.containsKey(relation)){
+		if (relation2ValueMap.containsKey(relation)) {
 			valuedRelation = relation2ValueMap.get(relation);
+			Value value = new Value(triple.getObject());
+			if (!valuedRelation.containsValue(value)) {
+				valuedRelation.addValue(value);
+			}
 		} else {
 			valuedRelation = new ValuedRelation(relation);
-			relation2ValueMap.put(relation, valuedRelation); 
+			relation2ValueMap.put(relation, valuedRelation);
+			valuedRelation.addValue(new Value(triple.getObject()));
 		}
-		valuedRelation.addValue(new Value(triple.getObject()));
 	}
 	
 	public void addTaxonomicTriple(Triple triple) {

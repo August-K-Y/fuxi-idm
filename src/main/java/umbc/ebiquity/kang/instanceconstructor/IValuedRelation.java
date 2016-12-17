@@ -1,11 +1,11 @@
 package umbc.ebiquity.kang.instanceconstructor;
 
-import java.util.List;
+import java.util.Set;
 
 public interface IValuedRelation {
 
 	IRelation getRelation();
 
-	List<IValue> getValues();
+	Set<IValue> getValues();
 
 }

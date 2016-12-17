@@ -39,13 +39,13 @@ public class MongoDBRepostoryIntegrationTest {
 		}
 	}
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void shouldReturnAllStoragesIntegrationTest() {
 		MongoClient mongoClient = null;
 		try {
 			mongoClient = new MongoClient("localhost", 27017);
-			MongoDBNavigator query = new MongoDBNavigator(mongoClient.getDatabase("repository"));
+			StorageNavigatorNavigator query = new StorageNavigatorNavigator(mongoClient.getDatabase("repository"));
 			printStorages(query.retrieveStorages());
 		} finally {
 			if (mongoClient != null) {
@@ -54,12 +54,13 @@ public class MongoDBRepostoryIntegrationTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void shouldListStorageNamesIntegrationTest() {
 		MongoClient mongoClient = null;
 		try {
 			mongoClient = new MongoClient("localhost", 27017);
-			MongoDBNavigator query = new MongoDBNavigator(mongoClient.getDatabase("repository"));
+			StorageNavigatorNavigator query = new StorageNavigatorNavigator(mongoClient.getDatabase("repository"));
 			System.out.println(query.listStorageNames());
 		} finally {
 			if (mongoClient != null) {

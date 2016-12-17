@@ -13,6 +13,7 @@ import static umbc.ebiquity.kang.instanceconstructor.impl.RepositorySchemaConfig
 import static umbc.ebiquity.kang.instanceconstructor.impl.RepositorySchemaConfiguration.TRIPLE_SUBJECT;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.bson.Document;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 
 import umbc.ebiquity.kang.entityframework.object.Concept;
@@ -27,13 +29,13 @@ import umbc.ebiquity.kang.instanceconstructor.IDescribedInstance;
 import umbc.ebiquity.kang.instanceconstructor.IStorage;
 import umbc.ebiquity.kang.instanceconstructor.IStorageNavigator;
 
-public class MongoDBNavigator implements IStorageNavigator {
+public class StorageNavigatorNavigator implements IStorageNavigator {
 
 	protected static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 
 	private final MongoDatabase database;
 
-	public MongoDBNavigator(MongoDatabase database) {
+	public StorageNavigatorNavigator(MongoDatabase database) {
 		this.database = database;
 	}
 
@@ -62,7 +64,7 @@ public class MongoDBNavigator implements IStorageNavigator {
 
 			Storage storage = new Storage(collectionName);
 			storagelbl2obj.put(collectionName, storage);
-			doRetrieve(storage, collectionName);
+			doRetrieve(storage);
 		}
 		return new ArrayList<IStorage>(storagelbl2obj.values());
 	}
@@ -77,7 +79,7 @@ public class MongoDBNavigator implements IStorageNavigator {
 	@Override
 	public IStorage retrieveStorage(String collectionName) {
 		Storage storage = new Storage(collectionName);
-		doRetrieve(storage, collectionName);
+		doRetrieve(storage);
 		return storage;
 	}
 
@@ -88,41 +90,42 @@ public class MongoDBNavigator implements IStorageNavigator {
 	 * retrieveInstance(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public IDescribedInstance retrieveInstance(String instanceName, String collectionName) {
-		Document doc = database.getCollection(collectionName).find(new Document(TRIPLE_SUBJECT, instanceName)).first();
-		if (doc != null) {
-			return getInstance(doc, null);
-		}
-		return null;
+	public IDescribedInstance retrieveInstance(String instanceName, String storageName) {
+		FindIterable<Document> documents = database.getCollection(storageName).find(new Document(TRIPLE_SUBJECT, instanceName));
+		List<DescribedInstance> instances = parseRecords(documents, storageName);
+		// the list should only contain one instance
+		return instances.get(0); 
 	}
 
-	private void doRetrieve(Storage storage, String collectionName) {
-		Map<String, DescribedInstance> instancelbl2obj = new HashMap<String, DescribedInstance>();
-		for (Document doc : database.getCollection(collectionName).find()) {
+	private void doRetrieve(Storage storage) {
+		String storageName = storage.getStorageName();
+		FindIterable<Document> documents = database.getCollection(storageName).find();
+		storage.setInstances(parseRecords(documents, storageName));
+	}
+	
+	private List<DescribedInstance> parseRecords(FindIterable<Document> documents, String storageName) {
+		Map<String, DescribedInstance> insName2obj = new HashMap<String, DescribedInstance>();
+		for (Document doc : documents) {
 			String recordType = (String) doc.get(TRIPLE_RECORD_TYPE);
 			if (isMetaData(recordType)) {
-				processMetaData(doc, storage);
 				continue;
 			}
-			DescribedInstance instance = getInstance(doc, instancelbl2obj);
-			instance.setStorageName(collectionName);
-			instancelbl2obj.put(instance.getName(), instance);
-			storage.addInstance(instance);
+			parseRecord(doc, storageName, insName2obj);
 		}
+		return new ArrayList<DescribedInstance>(insName2obj.values());
 	}
 
-	private void processMetaData(Document doc, Storage storage) {
-		// do nothing here for now
-	}
+	private DescribedInstance parseRecord(Document doc, String storageName, Map<String, DescribedInstance> insName2obj) {
 
-	private DescribedInstance getInstance(Document doc, Map<String, DescribedInstance> instancelbl2obj) {
-
-		String instancelbl = (String) doc.get(TRIPLE_SUBJECT);
+		String insName = (String) doc.get(TRIPLE_SUBJECT);
+		
 		// check if the instance with the given label already created. If
 		// not, create a new one and add it to the current storage.
-		DescribedInstance instance = instancelbl2obj == null ? null : instancelbl2obj.get(instancelbl);
+		DescribedInstance instance = insName2obj == null ? null : insName2obj.get(insName);
 		if (instance == null) {
-			instance = new DescribedInstance(instancelbl);
+			instance = new DescribedInstance(insName);
+			instance.setStorageName(storageName);
+			insName2obj.put(insName, instance);
 		}
 
 		String recordType = (String) doc.get(TRIPLE_RECORD_TYPE);

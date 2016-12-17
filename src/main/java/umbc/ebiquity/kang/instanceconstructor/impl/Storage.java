@@ -1,6 +1,7 @@
 package umbc.ebiquity.kang.instanceconstructor.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import umbc.ebiquity.kang.instanceconstructor.IDescribedInstance;
@@ -22,8 +23,16 @@ public class Storage implements IStorage {
 		return instances;
 	}
 
-	public void addInstance(IDescribedInstance instance) {
+	public void addInstance(DescribedInstance instance) {
 		instances.add(instance);
+	}
+
+	public void setInstances(List<DescribedInstance> instances) {
+		if (this.instances.size() > 0) {
+			this.instances.clear();
+		}
+		assert instances.size() == 0;
+		this.instances.addAll(instances);
 	}
 
 	@Override
