@@ -31,7 +31,7 @@ public class Storage implements IStorage {
 		if (this.instances.size() > 0) {
 			this.instances.clear();
 		}
-		assert instances.size() == 0;
+		assert this.instances.size() == 0;
 		this.instances.addAll(instances);
 	}
 

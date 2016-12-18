@@ -29,13 +29,13 @@ import umbc.ebiquity.kang.instanceconstructor.IDescribedInstance;
 import umbc.ebiquity.kang.instanceconstructor.IStorage;
 import umbc.ebiquity.kang.instanceconstructor.IStorageNavigator;
 
-public class StorageNavigatorNavigator implements IStorageNavigator {
+public class StorageNavigator implements IStorageNavigator {
 
 	protected static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 
 	private final MongoDatabase database;
 
-	public StorageNavigatorNavigator(MongoDatabase database) {
+	public StorageNavigator(MongoDatabase database) {
 		this.database = database;
 	}
 

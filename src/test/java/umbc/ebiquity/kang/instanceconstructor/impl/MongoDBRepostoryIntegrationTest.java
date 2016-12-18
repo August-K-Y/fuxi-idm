@@ -45,7 +45,7 @@ public class MongoDBRepostoryIntegrationTest {
 		MongoClient mongoClient = null;
 		try {
 			mongoClient = new MongoClient("localhost", 27017);
-			StorageNavigatorNavigator query = new StorageNavigatorNavigator(mongoClient.getDatabase("repository"));
+			StorageNavigator query = new StorageNavigator(mongoClient.getDatabase("repository"));
 			printStorages(query.retrieveStorages());
 		} finally {
 			if (mongoClient != null) {
@@ -60,7 +60,7 @@ public class MongoDBRepostoryIntegrationTest {
 		MongoClient mongoClient = null;
 		try {
 			mongoClient = new MongoClient("localhost", 27017);
-			StorageNavigatorNavigator query = new StorageNavigatorNavigator(mongoClient.getDatabase("repository"));
+			StorageNavigator query = new StorageNavigator(mongoClient.getDatabase("repository"));
 			System.out.println(query.listStorageNames());
 		} finally {
 			if (mongoClient != null) {
